@@ -1,2 +1,2 @@
 # note
-my daliy notes
+This is my daliy notes!
