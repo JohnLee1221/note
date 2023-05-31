@@ -1,4 +1,105 @@
-# carsim_2019_install
+# 系统与软件
+
+## windows设置
+
+**取消右键折叠菜单**
+
+```shell
+# powershell
+reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
+```
+
+
+
+**隐藏“快速访问”**
+
+```shell
+\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer
+右侧新建>>DWORD(32位）值
+重命名为HubMode
+1     隐藏
+0     显示
+```
+
+
+
+**访问共享盘**
+
+windows -> \\192.168.1.44
+ubuntu -> smb://192.168.1.44
+
+
+
+
+
+## 办公软件
+
+* **chrome**
+
+* **drawio**
+
+* **typora**
+
+* **sumatraPDF**
+
+* **office**
+
+* **xmind**
+
+
+
+## 开发软件
+
+* **vscode**
+
+```shell
+ctrl+shift+p   命令面板
+ctrl+r             打开最近的文件
+ctrl+shift+l     全选相同名字
+ctrl+shift+k    删除行
+alt+uparrow   移动行
+shift+alt+downarrow 复制一行到下面
+shift+alt+F     格式规范化
+F2    分析全选和替换
+```
+
+* **git**
+
+* **clash**
+
+```txt
+clash
+https://s.suying666.info/link/vFaGNkqrbTqZJx5J?sub=1
+
+Clash 进阶转换
+https://api.wcc.best/sub?target=clash&url=https%3A%2F%2Fs.suying666.info%2Flink%2FvFaGNkqrbTqZJx5J%3Fclash%3D1&insert=false&config=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FSleepyHeeead%2Fsubconverter-config%40master%2Fremote-config%2Fspecial%2Fbasic.ini&emoji=true&list=false&tfo=false&scv=false&fdn=false&sort=false&new_name=true
+```
+
+* **vitrual box**
+
+* **mobaxterm**
+
+```shell
+切换全屏模式：F11
+显示/隐藏侧边栏：Ctrl + Shift + B
+窗口分离：Ctrl + Shift + D
+向前导航：Ctrl + Tab/Ctrl + Alt + RightArrow
+向后导航：Ctrl + Shift + Tab/Ctrl + Alt + LeftArrow
+```
+
+* **youdao**
+
+* **everything**
+
+* **Notepad**
+
+
+
+
+
+## 安装
+
+### carsim_2019_install
 
 1.关闭杀毒软件和防火墙；
 
@@ -26,7 +127,7 @@
 
 
 
-# Matlab_2020a_install
+### Matlab_2020a_install
 
 1. 鼠标右击软件压缩包，选择“解压到Matlab R2020a“。
    <img src="https://img-blog.csdnimg.cn/4d5b167d7edd47a7ac43c2f61922eae1.png#pic_center" alt="在这里插入图片描述" style="zoom:50%;" />

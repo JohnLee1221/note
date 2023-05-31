@@ -1847,6 +1847,12 @@ cout<<p2.get()<<endl;				//p1.get()和p2.get()的值相同
 
 #### 19.1.3 指定删除器
 
+以下情况可能需要指定一个删除器：
+
+1. **使用非默认的释放函数**：当你分配资源时使用了非默认的释放函数时，你可以通过指定删除器来确保正确的释放逻辑。例如，如果你使用了自定义的内存分配器或者使用了特殊的资源释放函数，你可以通过删除器来调用相应的释放函数。
+2. **使用了动态分配的数组**：当你使用 `new[]` 运算符动态分配了一个数组时，你需要使用 `std::shared_ptr` 的数组版本，并指定一个适当的删除器来正确释放数组。默认的 `delete` 删除器不会正确释放动态分配的数组，因此你需要提供一个自定义的删除器，使用 `delete[]` 运算符来释放数组。
+3. **管理自定义资源**：如果你使用 `std::shared_ptr` 来管理自定义的资源（例如打开的文件、数据库连接等），你可以指定一个删除器来定义资源的释放行为。删除器可以在引用计数归零时执行自定义的资源清理操作，确保资源的正确释放。
+
 **在 C++11 中使用 `shared_ptr` 管理动态数组时，需要指定删除器，因为 `std::shared_ptr`的默认删除器不支持数组对象**
 
 * 删除器可以是`lambda`表达式
@@ -2185,5 +2191,48 @@ class mytuple<>{};
 
 
 
-### 
+## 21 string
+
+string 转换别的类型
+
+```c++
+#include <string>
+
+std::string str = "42";
+int a = std::stoi(str);				// string to int
+double b = std::stod(str);			// string to double
+long c = std::stol(str);			// string to long
+float d = std::stof(str);			// string to float
+long long e = std::stoll(str);		// string to long long
+long double f = std::stold(str);	// string to long doble
+
+```
+
+
+
+string转换成char*
+
+```c++
+std::string str = "Hello, world!";
+    
+// 使用 c_str() 函数
+const char* charArray1 = str.c_str();
+// 使用 data() 函数
+const char* charArray2 = str.data();
+```
+
+
+
+char*转换成string
+
+```c++
+const char charArray[] = "Hello, world!";
+    
+// 使用构造函数
+std::string str1(charArray); 
+// 使用赋值运算符
+std::string str2 = charArray;
+```
+
+
 
