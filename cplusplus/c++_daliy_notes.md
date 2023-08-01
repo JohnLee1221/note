@@ -1,3 +1,5 @@
+
+
 # C++ daliy notes
 
 
@@ -212,7 +214,7 @@ int main()
 
 ## 4 原始字面量
 
-定义方式为：` R"xxx(原始字符串)xxx" `   其中（）两边的字符串可以省略。原始字面量 R 可以直接表示字符串的实际含义，而不需要额外对字符串做转义或连接等操作。
+定义方式为：` R"xxx(原始字符串)xxx" `   其中`()`两边的字符串可以省略。原始字面量 R 可以直接表示字符串的实际含义，而不需要额外对字符串做转义或连接等操作。
 
 ********************
 
@@ -284,16 +286,6 @@ public:
 ```
 
 ******************
-
-
-
-
-
-### g++ test.cpp -o test -lpthread  -std=c++11
-
-通过c++11标准编译，并链接libpthread.so库
-
-********************************
 
 
 
@@ -807,8 +799,8 @@ double y = pf(5);     	// 这样也对， 但是不推荐这样写
 应用场景很重要
 
 ```c++
-ara::core::Result<size_t> GetNewSamples(new_samples_callback&& f,size_t maxNumberOfSamples = std::numeric_limits<size_t>::max()) override
-{
+ara::core::Result<size_t> GetNewSamples(new_samples_callback&& f,
+		size_t maxNumberOfSamples = std::numeric_limits<size_t>::max()) override {
     ...
 	f(std::move(dataPtr));
     ...
@@ -822,32 +814,32 @@ m_proxy->brakeEvent.GetNewSamples(callback);
 
 
 ```c++
-    auto callback = [&logMsg](auto sample) {
-        logMsg << "Polling: BrakeEvent - Radar:";
-        // always returns NotAvailable if E2E is disabled
+auto callback = [&logMsg](auto sample) {
+    logMsg << "Polling: BrakeEvent - Radar:";
+    // always returns NotAvailable if E2E is disabled
 
-        if (!sample->active) 
-        {
-            logMsg << "NOT";
-        }
-        logMsg << "active";
+    if (!sample->active) 
+    {
+        logMsg << "NOT";
+    }
+    logMsg << "active";
 
-        auto const& l_dataVector = sample->objectVector;
+    auto const& l_dataVector = sample->objectVector;
 
-        if (!l_dataVector.empty()) 
-        {
-            logMsg << " data: ";
-            ara::core::Span<std::uint8_t const> sp_object_vector(l_dataVector);
-            logMsg << ara::core::as_bytes(sp_object_vector);
-        }
+    if (!l_dataVector.empty()) 
+    {
+        logMsg << " data: ";
+        ara::core::Span<std::uint8_t const> sp_object_vector(l_dataVector);
+        logMsg << ara::core::as_bytes(sp_object_vector);
+    }
 
-        auto e2eCheckStatus = ara::com::e2e::internal::GetProfileCheckStatus(sample);
-        bool sampleCheckStatusResult = (e2eCheckStatus == ara::com::e2e::ProfileCheckStatus::kNotAvailable);
-        logMsg << "E2E checkStatus:" << (sampleCheckStatusResult ? "ok (NotAvailable)" : "not ok");
-        logMsg.Flush();
-    };
-    // execute callback for every samples in the context of GetNewSamples
-    m_proxy->brakeEvent.GetNewSamples(callback);
+    auto e2eCheckStatus = ara::com::e2e::internal::GetProfileCheckStatus(sample);
+    bool sampleCheckStatusResult = (e2eCheckStatus == ara::com::e2e::ProfileCheckStatus::kNotAvailable);
+    logMsg << "E2E checkStatus:" << (sampleCheckStatusResult ? "ok (NotAvailable)" : "not ok");
+    logMsg.Flush();
+};
+// execute callback for every samples in the context of GetNewSamples
+m_proxy->brakeEvent.GetNewSamples(callback);
 ```
 
 
@@ -1430,6 +1422,9 @@ int main()
 ```c++
 #include <functional>
 std::function<返回值类型（参数类型列表）> = 可调用对象；
+    
+// std::function<void(void)>
+// 可以省略()中的void写成 std::function<void()>
 ```
 
 
@@ -2177,8 +2172,7 @@ class mytuple;
 
 //偏特化版本
 template<typename HEAD, typename ...TLIST>
-class mytuple<HEAD, TLIST...> : public mytuple<TLIST...>
-{
+class mytuple<HEAD, TLIST...> : public mytuple<TLIST...> {
 public:
     mytuple(HEAD head, TLIST... args) : mytuple<TLIST...>(args...), value(head){}
     HEAD value;
@@ -2191,9 +2185,11 @@ class mytuple<>{};
 
 
 
-## 21 string
+## 21 std::string
 
-string 转换别的类型
+
+
+### 21.1 string to other type
 
 ```c++
 #include <string>
@@ -2208,9 +2204,20 @@ long double f = std::stold(str);	// string to long doble
 
 ```
 
+### 21.2 other type to string
+
+***std::to_string***函数
+
+```c++
+int a = 100;
+double b = 2.34;
+float c = 3.1f;
+std::cout << std::to_string(a) + std::to_string(b) + std::to_string(c)<< std::endl;	// 输出结果为1002.3400003.100000
+```
 
 
-string转换成char*
+
+### 21.3 string to char*
 
 ```c++
 std::string str = "Hello, world!";
@@ -2223,7 +2230,7 @@ const char* charArray2 = str.data();
 
 
 
-char*转换成string
+### 21.4 char* to string
 
 ```c++
 const char charArray[] = "Hello, world!";
@@ -2235,4 +2242,147 @@ std::string str2 = charArray;
 ```
 
 
+
+### 21.5 sub_string match string
+
+```c++
+std::string str1 = "Hello.bin";
+std::string str2 = "bin";
+```
+
+**在str1中查找str2**
+
+* ***rfind*** 函数
+
+​		在str1中查找str2，如果找到就返回匹配的第一个字符的位置
+
+```c++
+int state = str1.rfind(str2);		//返回函数匹配的位置，这里state = 6；
+```
+
+* ***compare***函数
+
+​		对比两个string的整型值，如果返回的值为0，说明相等，如果不为0说明在字段序列不一样
+
+```c++
+str1.compare(str2);				// 返回值不为0
+
+// 三个参数分别为，比较str的起始位置，比较的长度，比较的str2
+str1.compare(str1.size() - str2.size(), str2.size(), str2);		//返回值为0
+```
+
+
+
+**在str1中截取一段字符串**
+
+* ***substr***函数
+
+```c++
+// 参数分别为，截取str的起始位置，和结束位置
+std::string str = str1.substr(str1.size() - str2.size(), str2.size())	//str = "bin";
+```
+
+
+
+## 22 alias template
+
+```c++
+template<typename T>
+using Vec = std::vector<T>
+
+Vec<int> vec;
+```
+
+
+
+## 23 template template parameter
+
+TODO:UPDATE
+
+
+
+## 24 type_traits
+
+### 24.1 std::is_same
+
+用于检查两个类型是否相同
+
+```c++
+// 接口原型
+template <class T, class U>
+struct is_same {
+  static constexpr bool value = false;
+};
+
+template <class T>
+struct is_same<T, T> {
+  static constexpr bool value = true;
+};
+```
+
+
+
+```c++
+// 使用
+std::is_same<int, int>::value;        // true
+std::is_same<int, double>::value;     // false
+std::is_same<std::string, std::string>::value;  // true
+```
+
+
+
+### 24.2 std::is_base_of
+
+用于检查某个类是否是另一个类的基类
+
+```c++
+// 接口原型
+template <class Base, class Derived>
+struct is_base_of {
+ private:
+  template <class T>
+  static constexpr bool check(Derived*) {
+    return std::is_convertible_v<T*, Base*>;
+  }
+
+  template <class>
+  static constexpr bool check(...) {
+    return false;
+  }
+
+ public:
+  static constexpr bool value = check<Derived>(nullptr);
+};
+```
+
+
+
+```c++
+// 用法
+class Base {};
+class Derived : public Base {};
+
+std::is_base_of<Base, Derived>::value;     // true
+std::is_base_of<Derived, Base>::value;     // false
+```
+
+
+
+### 24.3 std::enable_if
+
+是一个条件模板类，用于在编译时根据给定的条件使得某个模板函数或类成员函数变为有效或无效。
+
+```c++
+// 接口原型
+template <bool Cond, class T = void>
+struct enable_if {};
+
+template <class T>
+struct enable_if<true, T> {
+  using type = T;
+};
+
+template <bool Cond, class T = void>
+using enable_if_t = typename enable_if<Cond, T>::type;
+```
 

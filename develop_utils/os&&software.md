@@ -50,7 +50,41 @@ ubuntu -> smb://192.168.1.44
 
 ## 开发软件
 
-* **vscode**
+### vscode
+
+字体设置
+
+* win
+
+  <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230605145040112.png" alt="image-20230605145040112" style="zoom:50%;" />
+
+  ```txt
+  Editor:Font Size
+  14
+  Editor:Font Family
+  Consolas, 'Courier New', monospace
+  Editor:Table Size
+  2
+  ```
+
+* ubuntu
+
+  ```shell
+  sudo apt install fonts-firacode
+  ```
+
+  <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230605145517115.png" alt="image-20230605145517115" style="zoom: 67%;" />
+
+  ```txt
+  Editor:Font Size
+  14
+  Editor:Font Family
+  Fira Code, Consolas, 'Courier New', monospace
+  Editor:Table Size
+  2
+  ```
+
+  
 
 ```shell
 ctrl+shift+p   命令面板

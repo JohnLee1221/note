@@ -2,7 +2,7 @@
 
 ## 1 Overview
 
-<img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230518131004887.png" alt="image-20230518131004887"  />
+<img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230518131004887.png" alt="image-20230518131004887" style="zoom:67%;" />
 
 ## 2 Introduction
 

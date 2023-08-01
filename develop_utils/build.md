@@ -1,8 +1,8 @@
 # g++
 
 ```shell
-g++ -g test.cpp -o demo					# debug模式
-g++ test.cpp -o demo -ltest				# 链接库
+g++ -g test.cpp -o demo								# debug模式
+g++ test.cpp -o demo -ltest -std=c++11				# 链接库,c++11标准
 
 # g++使用opencv库
 g++ png.cpp -o demo `pkg-config --cflags --libs opencv4`
@@ -91,7 +91,8 @@ OPTION(VAR_NAME "comment" VAR_VALUE)		#comment是变量注释
 ```cmake
 # 常用
 SET(SRC_LIST demo.cpp)
-set()
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_BUILD_TYPE Debug)
 ```
 
 

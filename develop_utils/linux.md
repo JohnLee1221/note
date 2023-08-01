@@ -39,11 +39,29 @@ dpkg -L ***                             //查找头文件
 
 
 
+## xdg-open
+
+```shell
+xdg-open meinv.jpg
+```
+
+
+
 ## chmod
 
 ```shell
 sudo chmod -R 777 ./test                              	//文件夹权限 r4 w2 x1
 sudo chown -R nvidia:nvidia ./test                		//文件夹属
+```
+
+
+
+## fsck
+
+fsck命令的全称是file system check，用于检查与修复 Linux 档案系统
+
+```shell
+fsck -y /dev/sda5
 ```
 
 

@@ -1,8 +1,16 @@
-# Fields2Cover tutorial
+# Fields2Cover functional specification
 
-<img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230518131004887.png" alt="image-20230518131004887"  />
+<img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230518131004887.png" alt="image-20230518131004887" style="zoom:80%;" />
 
-## 1 basic type
+
+
+## 1 types
+
+![image-20230625112250279](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230625112250279.png)
+
+
+
+
 
 ### 1.1 Geometry
 
@@ -314,45 +322,301 @@ struct Field {
 
 
 
-## 2 Objectives
+### 1.Ⅰ	*Field* -> *Point* 
+
+Method to get the raw point data in the ***Field*** data type
+
+获取Field数据类型中的原始点位数据方法
+
+```c++
+F2CCells cells = fields_[0].field;
+size_t cs_size = cells.size();
+for (size_t i = 0; i < cs_size; ++i) {
+    F2CCell cell = cells.getCell(i);
+    size_t c_size = cell.size();
+    for (size_t j = 0; j < c_size; ++j) {
+        F2CLinearRing linear_ring;
+        linear_ring = cell.getGeometry(i);
+        size_t lr_size = linear_ring.size();
+        for (size_t k = 0; k < lr_size; ++k) {
+            F2CPoint point;
+            point = linear_ring.getGeometry(k);
+            std::cout << point.getX() << "\t" << point.getY() << "\t" << point.getZ() << std::endl; 
+        }
+    }
+}
+```
+
+### 1.Ⅱ	*Path* -> *Point* && *Heading*
+
+### 1.Ⅲ
+
+
+
+
+
+## 2 headland_generator
+
+田间地头生成器模块
+
+
+
+<img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230625132034964.png" alt="image-20230625132034964" style="zoom:67%;" />
+
+### 2.1 HeadlandGeneratorBase
+
+生成田间地头的基类
+
+
+
+### 2.2 ConstHL
+
+constant headland
+
+一个可以生成每个边界都是等宽的田间地头类
+
+继承自HeadlandGeneratorBase基类
+
+
+
+## 3 swath_generator
+
+作业幅宽生成器模块
+
+<img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230625130008363.png" alt="image-20230625130008363" style="zoom:67%;" />
+
+
+
+### 3.1 SwathGeneratorBase
+
+作业幅宽生成器的基类
+
+
+
+### 3.2 BruteForce
+
+继承自SwathGeneratorBase基类
+
+重写generateBestSwaths方法
+
+
+
+
+
+
+
+## 4 bjectives
 
 代价函数模块
 
-![image-20230525125328768](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230525125328768.png)
+![image-20230625112649634](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230625112649634.png)
 
 
 
-### 2.1 SGObjective
+### 4.1 BaseObjective
+
+计算带有符号的代价值，是一个实现多态的父类，整个模块的入口
 
 
 
-#### 2.1.1 FieldCoverage
+### 4.2 SGObjective
 
-计算swath在田地的占比
+Swath Generator Objective，继承自BaseObjective基类
 
+SwathGeneratorBase类的方法依赖SGObjective对象 
 
-
-#### 2.1.2 NSwath
-
-计算swath的数量
+SGObjective自身是一个基类，通过派生类实现computeCost的方法
 
 
 
-#### 2.1.3 Overlaps
+> #### FieldCoverage
+>
+> * SGObjective的派生类
+>
+> * 计算swath在田地的占比百分比，其中swaths都是相同的宽度
+>
+> #### NSwath
+>
+> * SGObjective的派生类 Number of Swath
+>
+> * 计算swath的数量
+>
+> * 这个成本函数假设转弯速度比穿过swaths更慢。更少的区域意味着更少的转弯和更快的路径。
+>
+> #### Overlaps
+>
+> * SGObjective的派生类
+>
+> * 计算swath之间的重合区域与整个field的比例
+>
+> #### SwathLength
+>
+> * SGObjective的派生类
+>
+> * 计算swath的总长度
 
-计算swath之间的重合区域与整个field的比例
+
+
+### 4.3 RPObjective
+
+Route Planner Objective，继承自BaseObjective基类
+
+路由规划器的基类
 
 
 
-#### 2.1.4 SwathLength
+> #### DirectDistPathObj
+>
+> * RPObjective的派生类
+> * 路径的代价函数，路线中各点之间的直线距离
+>
+> #### CompleteTurnPathObj
+>
+> * RPObjective的派生类
+> * 计算从一个点转到另一个点的代价
+> * 这是最接近执行路径计划的实际成本的结果，因为它实际上计算了所有的转弯
 
-计算swath的总长度
+
+
+### 4.4 PPObjective
+
+Path Planner Objective，继承自BaseObjective基类
+
+计算path的长度代价函数基类
+
+
+
+> #### PathLength
+>
+> * PPObjective的派生类
+> * 空实现
+
+
+
+### 4.5 HGObjective
+
+Headland Generator Objective，继承自BaseObjective基类
+
+田间地头生成器代价函数的基类
+
+
+
+> #### RemArea
+>
+> * HGObjective的派生类
+> * 重写了isMinimizing的函数实现
 
 
 
 
 
+## 5 route_planning
 
+路由规划类
+
+![image-20230625124830024](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230625124830024.png)
+
+
+
+### 5.1 SingleCellSwathsOrderBase
+
+路由方式的基类，路由规划通过派生类继承重新方法
+
+实现了通过蛇形、牛耕式、行星式等规划方法
+
+
+
+### 5.2 BoustrophedonOrder
+
+牛耕式路由方法
+
+继承自SingleCellSwathsOrderBase基类
+
+
+
+### 5.3 SnakeOrder
+
+蛇形路由方法
+
+继承自SingleCellSwathsOrderBase基类
+
+
+
+### 5.4 SpiralOrder
+
+行星式路由方法
+
+继承自SingleCellSwathsOrderBase基类
+
+
+
+### 5.5 CustomOrder
+
+自定义方式，预留自定义接口类
+
+继承自SingleCellSwathsOrderBase基类
+
+
+
+## 6 path_palnning
+
+转弯规划器的基类模块
+
+![image-20230625112942196](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230625112942196.png)
+
+
+
+### 6.1 PathPlanning
+
+使用TurningBase类方法连接路径的路径规划类
+
+使用Turning算法将一个条形图按顺序连接到下一个条形图
+
+Pathplanning关联到TuringBase类的对象
+
+
+
+### 6.2 TuringBase
+
+提供了转弯方法的接口
+
+`createSimpleTurn`方法通过继承实现
+
+
+
+### 6.2 DubinsCurves
+
+Dubins曲线规划器
+
+继承自TuringBase基类
+
+
+
+### 6.3 DubinsCurvesCC
+
+Dubins' curves planner with continuous curves
+
+包含连接曲线的Dubins曲线规划器
+
+继承自TuringBase基类
+
+
+
+### 6.4 ReedsSheppCurves
+
+Reeds-Shepp曲线规划器
+
+继承自TuringBase基类
+
+
+
+### 6.5 ReedsSheppCurvesHC
+
+Reeds-Shepp's curves planner with continuous curves
+
+包含连接曲线的Reeds-Shepp曲线规划器
+
+继承自TuringBase基类
 
 
 
