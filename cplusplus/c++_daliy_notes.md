@@ -208,7 +208,34 @@ int main()
 }
 ```
 
-***********************
+
+
+### 3.4 静态局部对象
+
+```c++
+class Singleton
+{
+ public:
+  Singleton(const Singleton&) = delete;
+  Singleton& operator=(const Singleton&) = delete;
+  static Singleton* Instance() {
+    static Singleton *instance;
+    return instance;
+  }
+ private:
+  Singleton() = default;
+};
+```
+
+* 静态局部对象在函数Instance()被调用的初始化
+* 静态局部对象在程序执行过程中只会被初始化一次，而不是每次函数调用都进行初始化
+*  C++11 之后，静态局部变量的初始化是线程安全的
+
+*********************************************************************************************
+
+
+
+
 
 
 
