@@ -101,12 +101,18 @@ F2    分析全选和替换
 
 * **clash**
 
+  https://github.com/Fndroid/clash_for_windows_pkg/releases
+
 ```txt
 clash
 https://s.suying666.info/link/vFaGNkqrbTqZJx5J?sub=1
 
+https://s.suying666.info/link/uPpmh23TAYLeuDYX?clash=1
+
 Clash 进阶转换
 https://api.wcc.best/sub?target=clash&url=https%3A%2F%2Fs.suying666.info%2Flink%2FvFaGNkqrbTqZJx5J%3Fclash%3D1&insert=false&config=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FSleepyHeeead%2Fsubconverter-config%40master%2Fremote-config%2Fspecial%2Fbasic.ini&emoji=true&list=false&tfo=false&scv=false&fdn=false&sort=false&new_name=true
+
+https://api.wcc.best/sub?target=clash&url=https%3A%2F%2Fs.suying666.info%2Flink%2FuPpmh23TAYLeuDYX%3Fclash%3D1&insert=false&config=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FSleepyHeeead%2Fsubconverter-config%40master%2Fremote-config%2Fspecial%2Fbasic.ini&emoji=true&list=false&tfo=false&scv=false&fdn=false&sort=false&new_name=true
 ```
 
 * **vitrual box**
