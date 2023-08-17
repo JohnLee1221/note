@@ -124,13 +124,29 @@ int main(int argc, char **argv) {
 
   ```c++
   #include "matplotlibcpp.h"
-  using plt = matplotlibcpp;
   
-  void Plot() {
-    std::vector<int> vec = 
-    		{ 1.2, 2.0, 3, 4, 5, 6, 3, 2, 3, 2, 0, 2, 1, 4 };
-    plt::plot(vec);
-    plt::show();   
+  namespace plt = matplotlibcpp;
+  
+  int main() {
+    std::vector<double> v1 = { 1.2, 2.0, 3, 4, 5, 6, 3, 2, 3, 2, 0, 2, 1, 4 };
+    std::vector<int> v2 = { 1, 2, 3, 4, 5, 6};
+    std::vector<int> v3 = { 6, 5, 4, 3, 2, 1};
+      
+    plt::figure();
+    
+    // 创建第一个子图，位于 2x1 网格中的第一个位置
+    plt::subplot(2, 1, 1);		// 添加子图
+    plt::plot(v1);				// 默认画线
+    plt::title("Plot 1");
+      
+    // 创建第二个子图，位于 2x1 网格中的第二个位置
+    plt::subplot(2, 1, 2);		// 添加子图
+    plt::plot(v2, v3, "o");		// "o"是画点
+    plt::title("Plot 2");
+    
+    plt::save("test");			// 保存为test.png
+    plt::show();
+    plt::close();
   }
   ```
   
@@ -138,12 +154,12 @@ int main(int argc, char **argv) {
 
   ```shell
   # g++编译
-  g++ plot.cpp -o demo -I/usr/include/python3.8/ -lpython3.8
+  g++ plot.cpp -o demo -I /usr/include/python3.8/ -lpython3.8
   ```
 
 * 效果图示
 
-  <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230531145735164.png" alt="image-20230531145735164" style="zoom:50%;" />
+  ![image-20230817180152223](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230817180152223.png)
 
 
 
