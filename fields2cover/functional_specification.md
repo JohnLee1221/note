@@ -320,9 +320,7 @@ struct Field {
 };
 ```
 
-
-
-### 1.Ⅰ	*Field* -> *Point* 
+#### *Field* -> *Point* 
 
 Method to get the raw point data in the ***Field*** data type
 
@@ -346,10 +344,6 @@ for (size_t i = 0; i < cs_size; ++i) {
     }
 }
 ```
-
-### 1.Ⅱ	*Path* -> *Point* && *Heading*
-
-### 1.Ⅲ
 
 
 

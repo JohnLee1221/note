@@ -118,6 +118,170 @@ int main(int argc, char **argv) {
 
 ## 3 画表格
 
+**matplotlibcpp库**
+
+### 3.1 语法
+
+`matplotlibcpp` 是一个 C++ 封装库，用于在 C++ 程序中绘制类似于 Python 中使用 Matplotlib 绘图的图形。以下是一些常用的 `matplotlibcpp` 库的语法：
+
+1. **包含头文件**：
+
+   ```c++
+   #include <matplotlibcpp.h>
+   namespace plt = matplotlibcpp;
+   ```
+
+2. **绘制曲线**：
+
+   ```c++
+   std::vector<double> x = {1, 2, 3, 4, 5};
+   std::vector<double> y = {2, 4, 6, 8, 10};
+   plt::plot(x, y, "r-"); // 绘制红色实线
+   plt::plot(x, y, "g--"); // 绘制绿色虚线
+   ```
+
+3. **绘制点图：**
+
+   ```c++
+   std::vector<double> x = {1, 2, 3, 4, 5};
+   std::vector<double> y1 = {2, 4, 6, 8, 10};
+   std::vector<double> y2 = {3, 6, 7, 10, 15};
+   plt::plot(x, "o");    		// 绘制x集合点
+   plt::plot(x, y1, "ro"); 	// 绘制红色点
+   plt::plot(x, y2, "go"); 	// 绘制绿色点
+   ```
+
+4. **绘制散点图**：
+
+   ```c++
+   std::vector<double> x = {1, 2, 3, 4, 5};
+   std::vector<double> y = {2, 4, 6, 8, 10};
+   plt::scatter(x, y); // 绘制散点图
+   ```
+
+5. **设置标题和标签**：
+
+   ```c++
+   plt::title("Scatter Plot");
+   plt::xlabel("X Axis");
+   plt::ylabel("Y Axis");
+   ```
+
+6. **显示图形**：
+
+   ```c++
+   plt::show();
+   ```
+
+7. **保存图形为文件**：
+
+   ```c++
+   plt::save("plot.png"); // 保存为 PNG 图片
+   ```
+
+8. **设置坐标范围**：
+
+   ```c++
+   plt::xlim(0, 6); // 设置 X 轴范围为 [0, 6]
+   plt::ylim(0, 12); // 设置 Y 轴范围为 [0, 12]
+   ```
+
+9. **设置线宽和点的大小**：
+
+   在 `matplotlibcpp` 的 `plot` 函数中，你提供的信息是正确的，各关键字参数的使用如下：
+
+   - `color`：用于指定线条的颜色，例如 `"red"` 表示红色，`"blue"` 表示蓝色，等等。
+   - `marker`：用于指定标记点的样式，如 `"o"` 表示圆圈，`"s"` 表示方块，等等。
+   - `linestyle`：用于指定线条的样式，如 `"-"` 表示实线，`"--"` 表示虚线，等等。
+   - `linewidth`：用于指定线条的宽度，例如 `2.0` 表示宽度为 2.0。
+   - `markersize`：用于指定标记点的大小，例如 `10` 表示大小为 10。
+   - `label`：用于设置曲线的标签，以便用于图例。
+   - `alpha`：用于设置图表元素的透明度，例如 `0.5` 表示半透明。
+
+   ```c++
+   std::vector<double> x = {1, 2, 3, 4, 5};
+   std::vector<double> y = {2, 4, 6, 8, 10};
+   
+   // 设置线宽
+   std::map<std::string, std::string> line_style;
+   line_style.insert(std::make_pair<std::string, std::string>("color", "green"));
+   line_style.insert(std::make_pair<std::string, std::string>("linewidth", "5"));
+   plt::plot(x, line_style);		// 绿色实线，线宽5
+   
+   std::map<std::string, std::string> point_style;
+   point_style["color"] = "red";
+   point_style["marker"] = "o";
+   point_style["markersize"] = "5";
+   plt::plot(y, point_style);		// 红色点线，点大小为5
+   ```
+
+   <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230818154207967.png" alt="image-20230818154207967" style="zoom:33%;" />
+
+10. **绘制动图**：
+
+    这个画图会占用线程，如果想边执行程序边画图，最好开多线程，否则程序会卡在画图这，不会往后执行
+
+    ```c++
+    #include <cmath>
+    #include <vector>
+    #include "matplotlibcpp.h"
+    namespace plt = matplotlibcpp;
+    
+    int main()
+    {
+      int n = 1000;
+      std::vector<double> x;
+      std::vector<double> sin_line;
+      std::vector<double> log_line;
+      for(int i = 0; i < n; i++) {
+        x.push_back(i * i);
+        sin_line.push_back(sin( 2 * M_PI * i / 360.0));
+        log_line.push_back(log(i));
+        if (i % 10 == 0) {
+    	  plt::clf();										// 清空之前的plot数据
+    	  plt::named_plot("sin(x)", x, sin_line);			// 绘制一个sin(x)函数
+    	  plt::named_plot("log(x)", x, log_line);			// 绘制一个log(x)函数
+                
+    	  plt::xlim(0, 1000000);							// 设置x轴的范围
+    	  plt::title("Sample figure");
+    
+    	  plt::legend();
+    	  plt::pause(0.01);								// 图片显示时间，与legend()配合使用
+    	}
+      }
+      plt::show();
+      return 0;
+    }
+    ```
+
+    <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230818142456249.png" alt="image-20230818142456249" style="zoom: 25%;" />
+
+    <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230818142512840.png" alt="image-20230818142512840" style="zoom: 25%;" />
+
+11. **绘制多个图形**：
+
+    ```c++
+    plt::subplot(2, 1, 1); // 创建一个 2 行 1 列的子图，激活第一个子图
+    plt::plot(x, y, "r-");
+    plt::subplot(2, 1, 2); // 激活第二个子图
+    plt::scatter(x, y);
+    ```
+
+12. **创建多个窗口**：
+
+    ```c++
+    std::vector<double> x = {1, 2, 3, 4, 5};
+    std::vector<double> y = {2, 4, 6, 8, 10};
+    plt::figure();		// 创建一个窗口
+    plt::plot(x);
+    plt::figure();		// 创建另一个窗口
+    plt::plot(y, "o");
+    ```
+
+    
+
+### 3.2 示例
+
 * 把matplotlibcpp.h文件放置在目录下
 
 * 代码

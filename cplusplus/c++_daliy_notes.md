@@ -366,35 +366,93 @@ void func()
 
 
 
-### 7.1 异常的基本语法
+### 7.1 exception 异常的基本语法
 
 ![2016314153429533.jpg (577×329)](https://subingwen.cn/cpp/noexcept/2016314153429533.jpg)
 
-**异常被抛出后，从进入 try 块起，到异常被抛掷前，这期间在栈上构造的所有对象，都会被自动析构。析构的顺序与构造的顺序相反。这一过程称为栈的解旋**
+```c++
+#include <iostream>
+#include <fstream>
 
-noexcept 形如其名， 表示其修饰的函数不会抛出异常 。`在 C++11 中如果 noexcept 修饰的函数抛出了异常，编译器可以选择直接调用 std::terminate () 函数来终止程序的运行，这比基于异常机制的 throw () 在效率上会高一些`。这是因为异常机制会带来一些额外开销，比如函数抛出异常，会导致函数栈被依次地展开（栈解旋），并自动调用析构函数释放栈上的所有对象。
+class FileReading {
+ public:
+  FileReading(const std::string& file_name) {
+    file_.open(file_name);
+    // 如果文件打开有问题，将会抛出一个异常
+    if (!file_.is_open()) {
+      throw std::runtime_error("Failed to open file: " + file_name);
+    }
+    std::cout << "FileReading constructed successfully" << std::endl;
+  }
+
+  void ReadAndPrint() {
+    std::string line;
+    while (std::getline(file_, line)) {
+      std::cout << line << std::endl;
+    }
+  }
+
+  ~FileReading() {
+    if (file_.is_open()) {
+      file_.close();
+      std::cout << "FileReading distructed successfully" << std::endl;
+    }
+  }
+
+ private:
+  std::ifstream file_;
+};
+
+void Adapter(const std::string& name) {
+  // 异常处理模块
+  try {
+    FileReading reader(name + ".txt");
+    reader.ReadAndPrint();
+    // catch语句捕获到异常
+  } catch (const std::exception& err) {
+    std::cerr << err.what() << std::endl;
+  }
+}
+  
+int main() {
+  Adapter("example"); 
+  // Adapter("lalala"); 
+
+  return 0;
+}
+```
+
+* **异常被抛出后，从进入 try 块起，到异常被抛掷前，这期间在栈上构造的所有对象，都会被自动析构。析构的顺序与构造的顺序相反。**
+* **栈展开（Stack Unwinding）：当发生异常时，程序会进行栈展开操作，即回溯调用栈，依次执行每一层的析构函数，直到找到能够处理异常的 catch 块为止。**
+
+
+
+### 7.2 noexcept 关键字
+
+在调用一个函数时，编译器会生成一些 `exception handler` 的记录，导致在编译的过程会产生很多冗余的代码，这些代码虽然只有在出错的时候执行，但是还是会对 `instruction cache` 造成影响，从而影响整个performance。所以，当我们确定一个函数不会发生异常的时候，可以对其进行优化，禁止一个函数抛出异常。
+
+
+
+如果一个函数的参数列表后面跟上 `throw()` 的话，表达的就是这个函数不会抛出异常。	***c++11之前的写法***
+
+***noexcept*** 形如其名， 表示其修饰的函数不会抛出异常 。														***c++11之后的写法***
+
+> 在 C++11 中如果 noexcept 修饰的函数抛出了异常，编译器可以选择直接调用 std::terminate () 函数来终止程序的运行，这比基于异常机制的 throw () 在效率上会高一些。
 
 
 
 ```c++
-struct Msg
-{
-    Msg(sting str) : msg(str){}
-    string msg;
-};
-
-void func()	noexcept			
-{
-    throw Msg("Hello World")
+// 这两个函数表示的都是不会抛出异常
+void Test1() throw() {
+/*
+ *...
+ */
 }
 
-int main()
-{
-    try {func();}
-    catch (Msg msg)
-    {
-        cout<<"throw success"<<endl;
-	}
+void Test2() noexcept {
+/*
+ *...
+ */
 }
 ```
 
@@ -402,23 +460,73 @@ int main()
 
 
 
-### 7.2 noexcept 修饰符
+### 7.3 noexcept 表达式
 
-​	noexcept 修饰符有两种形式:
+`noexcept` 表达式是 C++11 引入的一种机制，用于在编译时检查表达式是否会引发异常。它通常与函数声明、函数定义、模板参数等一起使用，以表明函数或表达式是否会引发异常。
 
-1. 简单地在函数声明后加上 noexcept 关键字
+`noexcept` 表达式的语法是 `noexcept(expression)`，其中 `expression` 是要检查的表达式。这个表达式可以是任何能够在编译时求值的表达式，包括函数调用、算术运算、逻辑运算等.
 
-2. 可以接受一个常量表达式作为参数，如下所示∶
+
+
+**noexcept(常量表达式)**
+
+```c++
+double DivisionMethod(int a, int b) noexcept(常量表达式);
+```
+
+常量表达式的结果会被转换成一个bool类型的值：
+
+* 值为`true` ，表示函数不会抛出异常
+* 值为`false`  ，表示允许抛出异常
+
+**请注意，`noexcept` 表达式主要用于编译时的异常检查，而不是在运行时设置值** 
+
+
+
+1. 函数定义：在函数定义中使用 `noexcept` 表达式来提供更准确的异常规范。
+
+   在实际情况下，`noexcept` 表达式通常用于检查给定的表达式是否可能引发异常，而不是直接设置结果。因此，不能直接通过 `noexcept(false)` 来设置 `noexcept` 表达式的结果为 `false`。
 
    ```c++
-   double divisionMethod(int a, int b) noexcept(常量表达式);
+   // 如下写法尽量避免，没有意义
+   bool is_noexcept = noexcept(true);
+   bool is_noexcept = noexcept(false);
    ```
 
-   常量表达式的结果会被转换成一个 bool 类型的值：
+   
 
-   * 值为 true，表示函数不会抛出异常
-   * 值为 false，表示有可能抛出异常这里
-   * 不带常量表达式的 noexcept 相当于声明了 noexcept（true），即不会抛出异常
+   ```c++
+   void foo() noexcept;		// 表示foo()函数一定不会抛出异常
+   
+   // noexcept(foo())是对函数的 `noexcept` 关键字进行检测
+   // 如果foo()被 `noexcept` 限定，那么返回true
+   // 如果foo()没有被 `noexcept` 限定，那么返回false
+   
+   void bar() noexcept(noexcept(foo())); 	// 根据 noexcept(foo()) 的结果来对bar()函数做异常限定
+   										// 如果foo()不抛出异常，bar()也不抛出异常
+   										// 如果foo()允许抛出异常，bar()也允许抛出异常
+   ```
+
+   使用场景：当我不知道 `foo()` 函数是否会抛出异常，我又想对 `bar()` 函数进行优化的时候，可以通过`noexcept(noexcept(foo()))` 进行编译阶段检查。
+
+   
+
+2. 模板参数：在模板参数中使用 `noexcept` 表达式来限制只接受不会抛出异常的类型。例如：
+
+   ```c++
+   template <typename T>
+   void baz() noexcept(noexcept(T())) {
+       // ...
+   }
+   ```
+
+3. 条件检查：在代码中使用 `noexcept` 表达式来进行条件检查。例如：
+
+   ```c++
+   if (noexcept(expr)) {
+       // 在 expr 不会抛出异常的情况下执行的代码
+   }
+   ```
 
 *******************************
 
@@ -2413,3 +2521,130 @@ template <bool Cond, class T = void>
 using enable_if_t = typename enable_if<Cond, T>::type;
 ```
 
+
+
+## 25 常对象 && 常函数
+
+#### 25.1 常函数
+
+**常函数：**
+
+* 成员函数后加const后我们称为这个函数为**常函数**
+* 常函数内不可以修改成员属性
+* 成员属性声明时加关键字mutable后，在常函数中依然可以修改
+* 常成员函数可以被常对象调用，但不能被非常对象调用。
+
+
+
+```c++
+class Test {
+ public:
+    int x() const {
+        return num_;
+    }
+ private:
+    int num_;
+};
+```
+
+
+
+说明：
+
+1. 常函数只是在函数内部对成员变量进行限定
+
+   本质上是对this指针进行限定
+
+
+
+**拓展**
+
+当成员函数**返回引用**和**返回指针**的时候，可能会不安全
+
+```c++
+class MyClass {
+ public:
+  MyClass(const int& value) : value_(value), value_ptr_(new int(value)){}
+
+  int& getValue() { return value_; }			// 外部可以通过引用修改value_的值
+  int* getValuePtr() { return value_ptr_; }		// 外部可以通过指针修改value_ptr_的值
+
+ private:
+  int value_{};
+  int *value_ptr_{};
+};
+
+int main() {
+  MyClass m(1);
+  
+  int& a = m.getValue();
+  a = 111;
+  std::cout << m.getValue() << std::endl;		// 111
+
+  int* b = m.getValuePtr();
+  *b = 888;
+  std::cout << *m.getValuePtr() << std::endl;	// 888
+
+  return 0;
+}
+```
+
+
+
+***当成员函数返回引用或者返回指针的时候，需要对返回值进行const限定***
+
+```c++
+class MyClass {
+ public:
+  MyClass(const int& value) : value_(value), value_ptr_(new int(value)){}
+
+  const int& getValue() { return value_; }
+  const int* getValuePtr() { return value_ptr_; }
+
+ private:
+  int value_{};
+  int *value_ptr_{};
+};
+
+int main() {
+  MyClass m(1);
+  
+  const int& a = m.getValue();
+  const int* b = m.getValuePtr();
+    
+  return 0;
+}
+```
+
+
+
+#### 25.2 常对象
+
+常对象是指被声明为 `const` 的对象，即对象的状态在其生命周期内不能被修改。常对象的主要应用场景包括以下情况：
+
+1. **确保对象状态不被修改：** 如果你想要保证某个对象的状态在特定的作用域内不会被修改，你可以将该对象声明为常对象。
+
+2. **避免错误修改：** 常对象可以帮助避免在程序中意外修改对象状态，从而减少程序出错的机会。
+
+3. **用于函数参数：** 当你希望将对象传递给函数时，如果你不希望函数内部修改对象的状态，可以将对象传递为常对象。
+
+   ```c++
+   // 常用于场景
+   class MyClass {
+    public:
+      int value() const { return value_; }		// 如果没有const，下面的代码会报错
+   
+    private:
+     int value_ = 100;
+   };
+   
+   void GetMsg(const MyClass& m) {
+       int num = m.value();
+   }
+   ```
+
+   
+
+4. **提供只读操作：** 常对象可以在不改变对象状态的情况下提供对对象的只读操作，如查询对象的信息、执行计算等。
+
+5. **多线程编程：** 在多线程环境下，常对象可以避免并发修改导致的竞态条件。
