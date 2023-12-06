@@ -2,7 +2,7 @@
 
 ## 1.1 reference line的作用
 
-![image-20230730223431574](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230730223431574.png)
+<img src="D:\Work_Station\Documents\note\apollo\images\image-20230925100735480.png" alt="image-20230925100735480" style="zoom: 50%;" />
 
 参考线贯穿整个planning模块，是规划模块的基础
 
@@ -10,7 +10,7 @@
 
 ## 1.2 reference line在planning中的流程
 
-![](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproamytyproaimage-20230730224048383.png)
+<img src="D:\Work_Station\Documents\note\apollo\images\image-20230925100801714.png" alt="image-20230925100801714" style="zoom:50%;" />
 
 * **Routing模块**
 
@@ -69,7 +69,7 @@ class ReferenceLine {
 
 **ReferencePoint**
 
-<img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230730231631071.png" alt="image-20230730231631071" style="zoom:50%;" />
+<img src="D:\Work_Station\Documents\note\apollo\images\image-20230925100818925.png" alt="image-20230925100818925" style="zoom:50%;" />
 
 在`ReferencePoint` 中`kappa` 和 `dkappa` 的跳变，都会影响方向盘的抖动，进而影响乘坐的舒适
 
@@ -79,7 +79,7 @@ class ReferenceLine {
 
 参考线通过pnc地图和定位信息获取地图中的参考线
 
-![image-20230730232936968](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230730232936968.png)
+<img src="D:\Work_Station\Documents\note\apollo\images\image-20230925100835539.png" alt="image-20230925100835539" style="zoom: 50%;" />
 
 参考线平滑提供三种平滑算法，基于不同对象，选择不同的平滑算法
 
@@ -89,7 +89,7 @@ class ReferenceLine {
 
 ## 2.3 reference line生成
 
-![image-20230730233843330](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230730233843330.png)
+![image-20230925100859057](D:\Work_Station\Documents\note\apollo\images\image-20230925100859057.png)
 
 
 
@@ -101,13 +101,13 @@ class ReferenceLine {
 
 其中**离散点参考线平滑**又分为 `CosThetaSmooth` 和 `FemPosSmooth` 
 
-![image-20230730234440603](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230730234440603.png)
+![image-20230925100912291](D:\Work_Station\Documents\note\apollo\images\image-20230925100912291.png)
 
 通过配置文件配置来选择不同的平滑器
 
 ***apollo/modules/planning/conf***
 
-<img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230730235853959.png" alt="image-20230730235853959" style="zoom:50%;" />
+<img src="D:\Work_Station\Documents\note\apollo\images\image-20230925100925681.png" alt="image-20230925100925681" style="zoom:50%;" />
 
 
 
@@ -142,33 +142,33 @@ if (smoother_config_.has_qp_spline()) {
 
 ***modules/planning/reference_line/reference_line_provider.cc***
 
-![image-20230731000526087](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230731000526087.png)
+<img src="D:\Work_Station\Documents\note\apollo\images\image-20230925100942615.png" alt="image-20230925100942615" style="zoom:50%;" />
 
 * **step1** ：设置中间点 `anchor points`
 
   ***modules/planning/reference_line/reference_line_provider.cc***
 
-  <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230731223052194.png" alt="image-20230731223052194" style="zoom: 67%;" />
+  <img src="D:\Work_Station\Documents\note\apollo\images\image-20230925100959575.png" alt="image-20230925100959575" style="zoom:50%;" />
 
 ​		平滑的过程中，只有首尾两个点是强约束点
 
-<img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230731223415400.png" alt="image-20230731223415400" style="zoom:50%;" />
+<img src="D:\Work_Station\Documents\note\apollo\images\image-20230925101012763.png" alt="image-20230925101012763" style="zoom:50%;" />
 
 * **step2** ：配置选择平滑算法
 
   ***modules/planning/reference_line/discrete_points_reference_line_smoother.cc***
 
-  ![image-20230731223928399](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230731223928399.png)
+  ![image-20230925101032357](D:\Work_Station\Documents\note\apollo\images\image-20230925101032357.png)
 
 * **step3** ：FemPosSmooth
 
-  ![image-20230731224227651](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230731224227651.png)
+  ![image-20230925101057395](D:\Work_Station\Documents\note\apollo\images\image-20230925101057395.png)
 
 * **step4** ：求解器Solve函数
 
   ***modules/planning/math/discretized_points_smoothing/fem_pos_deviation_smoother.cc***
 
-  ![image-20230731224824510](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230731224824510.png)
+  ![image-20230925101120277](D:\Work_Station\Documents\note\apollo\images\image-20230925101120277.png)
 
 ​		Apollo默认是使用无曲率约束的求解器，速度更快
 
@@ -176,11 +176,11 @@ if (smoother_config_.has_qp_spline()) {
 
 ### 2.4.3 平滑问题求解
 
-![image-20230731225519845](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230731225519845.png)
+![image-20230925101136950](D:\Work_Station\Documents\note\apollo\images\image-20230925101136950.png)
 
-![image-20230731225610158](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230731225610158.png)
+![image-20230925101150156](D:\Work_Station\Documents\note\apollo\images\image-20230925101150156.png)
 
-![image-20230731230335453](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230731230335453.png)
+![image-20230925101205368](D:\Work_Station\Documents\note\apollo\images\image-20230925101205368.png)
 
 
 
@@ -188,4 +188,4 @@ if (smoother_config_.has_qp_spline()) {
 
 这个工具直接生成轨迹
 
-![image-20230731231908644](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230731231908644.png)
+![image-20230925101222699](D:\Work_Station\Documents\note\apollo\images\image-20230925101222699.png)

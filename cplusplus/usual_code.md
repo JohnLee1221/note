@@ -25,7 +25,7 @@ std::string GetTimeStamp() {
 
 设计一个***Data2Log*** 的仿函数，输出Data数据类型的数据
 
-![](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproamytyproaimage-20230717110125990.png)
+![image-20230925101252526](D:\Work_Station\Documents\note\cplusplus\images\image-20230925101252526.png)
 
 * **Data2Log()** && **Data2Log(const std::string& name)**
 
@@ -215,7 +215,7 @@ int main(int argc, char **argv) {
    plt::plot(y, point_style);		// 红色点线，点大小为5
    ```
 
-   <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230818154207967.png" alt="image-20230818154207967" style="zoom:33%;" />
+   <img src="D:\Work_Station\Documents\note\cplusplus\images\image-20230925101309870.png" alt="image-20230925101309870" style="zoom: 33%;" />
 
 10. **绘制动图**：
 
@@ -254,9 +254,9 @@ int main(int argc, char **argv) {
     }
     ```
 
-    <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230818142456249.png" alt="image-20230818142456249" style="zoom: 25%;" />
+    <img src="D:\Work_Station\Documents\note\cplusplus\images\image-20230925101336668.png" alt="image-20230925101336668" style="zoom: 25%;" />
 
-    <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230818142512840.png" alt="image-20230818142512840" style="zoom: 25%;" />
+    <img src="D:\Work_Station\Documents\note\cplusplus\images\image-20230925101403334.png" alt="image-20230925101403334" style="zoom:25%;" />
 
 11. **绘制多个图形**：
 
@@ -323,7 +323,7 @@ int main(int argc, char **argv) {
 
 * 效果图示
 
-  ![image-20230817180152223](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230817180152223.png)
+  <img src="D:\Work_Station\Documents\note\cplusplus\images\image-20230925101416689.png" alt="image-20230925101416689" style="zoom:50%;" />
 
 
 
@@ -413,7 +413,7 @@ int main(int argc, char **argv) {
 
   
 
-​		使用***type_traits***来设计一个编译阶段可以验证的，实现验证是否为派生类的重载函数模板
+​	使用***type_traits***来设计一个编译阶段可以验证的，实现验证是否为派生类的重载函数模板
 
 ```c++
 #include <type_traits>

@@ -279,7 +279,7 @@ class RouteSegments : public std::vector<LaneSegment> {
 
 Routing模块将道路结构分解成多个**RoadSegment**，每个**RoadSegment**又包含多个通道**Passage**，每个**Passage**又由多个**LaneSegment**组成
 
-![image-20230804084643930](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230804084643930.png)
+![image-20230925100650360](D:\Work_Station\Documents\note\apollo\images\image-20230925100650360.png)
 
 如图中的例子
 
@@ -315,7 +315,7 @@ Routing模块将道路结构分解成多个**RoadSegment**，每个**RoadSegment
 
 **RoadSegment**，**Passage**，**LaneSegment**图解：
 
-![image-20230801152447718](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230801152447718.png)
+![image-20230925100712639](D:\Work_Station\Documents\note\apollo\images\image-20230925100712639.png)
 
 
 

@@ -1,5 +1,23 @@
 # plantuml toturial
 
+
+
+类图关系
+
+https://subingwen.cn/design-patterns/UML-class-diagrams/
+
+
+
+```shell
+sudo apt install libgraphviz-dev openjdk-11-jre
+```
+
+
+
+
+
+
+
 ```wsd
 !define MY_PAGE_SIZE 400x600
 @startuml

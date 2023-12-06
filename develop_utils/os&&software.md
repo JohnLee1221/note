@@ -56,7 +56,7 @@ ubuntu -> smb://192.168.1.44
 
 * win
 
-  <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230605145040112.png" alt="image-20230605145040112" style="zoom:50%;" />
+  ![image-20230925095720917](D:\Work_Station\Documents\note\develop_utils\images\image-20230925095720917.png)
 
   ```txt
   Editor:Font Size
@@ -73,7 +73,7 @@ ubuntu -> smb://192.168.1.44
   sudo apt install fonts-firacode
   ```
 
-  <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230605145517115.png" alt="image-20230605145517115" style="zoom: 67%;" />
+  ![image-20230925095757275](D:\Work_Station\Documents\note\develop_utils\images\image-20230925095757275.png)
 
   ```txt
   Editor:Font Size

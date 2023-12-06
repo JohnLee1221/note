@@ -66,6 +66,12 @@ fsck -y /dev/sda5
 
 
 
+## 增加用户
+
+![img_v2_7d537140-ba38-498c-97dc-295ceb885efg](D:\Work_Station\Documents\note\develop_utils\images\img_v2_7d537140-ba38-498c-97dc-295ceb885efg.jpg)
+
+
+
 ## 进程查看
 
 ```shell

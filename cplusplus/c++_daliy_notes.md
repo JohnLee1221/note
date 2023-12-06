@@ -866,7 +866,7 @@ int main()
 
 声明指针时，必须指定指针指向的数据类型，同样，声明指向函数的指针时，必须指定指针指向的函数类型，这意味着声明应当指定函数的返回类型以及函数的参数列表
 
-```
+```c++
 double cal(int);   			// prototype
 double (*pf)(int);   		// 指针pf指向的函数， 输入参数为int,返回值为double,函数指针的定义
 pf = cal;    				// 指针赋值
@@ -877,24 +877,20 @@ pf = cal;    				// 指针赋值
 如果将指针作为函数的参数传递：
 
 ```c++
-string test(int a)							//test函数
-{
+string test(int a) {
     return "Hello World";
 }
 
-void foo1(int num,string (*ptr)(int))
-{
-    cout<<num<<"\t"<<ptr(num)<<endl;
+void foo1(int num, string (*ptr)(int)) {
+    cout << num << "\t" << ptr(num) << endl;
 }
 
-void foo2(string (*ptr)(int))
-{
+void foo2(string (*ptr)(int)) {
     int num = 2;
-    cout<<num<<"\t"<<ptr(num)<<endl;
+    cout << num << "\t" << ptr(num) << endl;
 }
 
-void func1()
-{
+void func1() {
     foo1(1,test);
     foo2(test);
 }
@@ -1548,7 +1544,7 @@ int main()
 
 ### 16.2 function
 
-**std::functinon是可调用对象包装器，它是一个模板类，可以容纳除了类成员指针（包括：*类成员指针，类函数指针*）以外的所有可调用对象**。通过指定模板参数，可以用统一的方式处理函数、函数指针、函数对象，丙允许保存和延迟执行。
+**std::function是可调用对象包装器，它是一个模板类，可以容纳除了类成员指针（包括：*类成员指针，类函数指针*）以外的所有可调用对象**。通过指定模板参数，可以用统一的方式处理函数、函数指针、函数对象，丙允许保存和延迟执行。
 
 
 
@@ -1564,7 +1560,7 @@ std::function<返回值类型（参数类型列表）> = 可调用对象；
 
 
 
-```
+```c++
 #include <iostream>
 #include <functional>
 using namespace std;

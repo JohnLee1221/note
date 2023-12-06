@@ -4,7 +4,7 @@
 
 ## 1 ros支持的基本数据类型
 
-![image-20230529163627713](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230529163627713.png)
+<img src="D:\Work_Station\Documents\note\ros\images\image-20230925102827964.png" alt="image-20230925102827964" style="zoom: 67%;" />
 
 http://wiki.ros.org/msg
 
@@ -71,7 +71,7 @@ Subscribed topics:
 rostopic pub [topic] [msg_type] [args]
 ```
 
-![image-20230510223953586](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230510223953586.png)
+![image-20230925102845124](D:\Work_Station\Documents\note\ros\images\image-20230925102845124.png)
 
 
 
@@ -93,17 +93,15 @@ rostopic pub /turtle1/cmd_vel geometry_msgs/Twist -r 1 -- '[2.0, 0.0, 0.0]' '[0.
 
 > 查看数据类型：
 >
-> > ![image-20230510233302996](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproamytyproaimage-20230510233302996.png)
+> > ![image-20230925102859609](D:\Work_Station\Documents\note\ros\images\image-20230925102859609.png)
 
 > 打印一组数据：
 >
-> > <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230510233536404.png" alt="image-20230510233536404" style="zoom:80%;" />
+> > <img src="D:\Work_Station\Documents\note\ros\images\image-20230925102909579.png" alt="image-20230925102909579" style="zoom:67%;" />
 
 > 发布一次话题：
 >
-> > <img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230510233640623.png" alt="image-20230510233640623" style="zoom:80%;" />
-
-
+> > <img src="D:\Work_Station\Documents\note\ros\images\image-20230925102919827.png" alt="image-20230925102919827" style="zoom: 67%;" />
 
 
 

@@ -1,6 +1,6 @@
 # git command
 
-<img src="https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproa011500266295799.jpg" alt="img" style="zoom: 50%;" />
+<img src="D:\Work_Station\Documents\note\develop_utils\images\image-20230925095920095.png" alt="image-20230925095920095" style="zoom: 50%;" />
 
 
 

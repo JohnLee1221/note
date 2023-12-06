@@ -2,7 +2,7 @@
 
 ## 1 虚拟机配置
 
-![image-20230531130355371](https://images-1318119468.cos.ap-shanghai.myqcloud.com/mytyproaimage-20230531130355371.png)
+<img src="D:\Work_Station\Documents\note\develop_utils\images\image-20230925100018388.png" alt="image-20230925100018388" style="zoom:67%;" />
 
 
 
